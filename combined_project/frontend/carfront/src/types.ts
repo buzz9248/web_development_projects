@@ -3,17 +3,25 @@ export type CarResponse = {
   model: string;
   color: string;
   registrationNumber: string;
-  modelYear: number;
-  price: number;
+  modelYear: number,
+  price: number,
   _links: {
     self: {
-      href: string;
-    },
-    car: {
+      href: string,
+    }, car: {
       href: string;
     },
     owner: {
       href: string;
     }
   };
+}
+
+export type Car = {
+  brand: string;
+  model: string;
+  color: string;
+  registrationNumber: string;
+  modelYear: number;
+  price: number;
 }
