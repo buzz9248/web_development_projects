@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Dialog } from "@mui/material";
 import { DialogActions } from "@mui/material";
-import { DialogContent } from "@mui/material";
 import { DialogTitle } from "@mui/material";
-import { Car } from "../types";
+// import Button from "@mui/material/Button"; // 혹시 모르는 보험
+import { Button } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addCar } from "../api/carapi";
 import CarDialogContent from "./CarDialogContent";
-
+import { Car } from "../types";
 
 function AddCar() {
   const [open, setOpen] = useState(false);
@@ -17,14 +17,13 @@ function AddCar() {
     color: '',
     registrationNumber: '',
     modelYear: 0,
-    price: 0
+    price: 0,
   });
-
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation(addCar, {
     onSuccess: () => {
-      queryClient.invalidateQueries(['cars']);
+      queryClient.invalidateQueries(["cars"]);
     },
     onError: (err) => {
       console.log(err);
@@ -37,37 +36,40 @@ function AddCar() {
 
   const handleClose = () => {
     setOpen(false);
-  };
+  }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCar({
-      ...car, [event.target.name]: event.target.value
+      ...car, [event.target.name]:
+        event.target.value
     });
   }
 
-  // 자동차를 저장하고 모달 폼을 닫아야함
+  // 자동차를 저장하고 모달 폼을 닫아야 함.
   const handleSave = () => {
     mutate(car);
-    setCar({ brand: '', model: '', color: '', registrationNumber: '', modelYear: 0, price: 0 });
+    setCar({
+      brand: '', model: '', color: '', registrationNumber: '',
+      modelYear: 0, price: 0
+    });
     handleClose();
   }
 
   return (
     <>
-      <button onClick={handleClickOpen}> New 차량 추가 🚗</button>
+      <Button onClick={handleClickOpen}> New 차량 추가 🚗</Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>New Car</DialogTitle>
         <CarDialogContent car={car} handleChange={handleChange} />
         <DialogActions>
-          <button onClick={handleClose}>취소</button>
-          <button onClick={handleSave}>저장</button>
+          <Button onClick={handleClose}>취소</Button>
+          <Button onClick={handleSave}>저장</Button>
         </DialogActions>
-
       </Dialog>
 
 
     </>
-  )
+  );
 }
 
-export default AddCar
+export default AddCar;
